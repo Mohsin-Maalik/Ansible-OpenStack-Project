@@ -1,0 +1,4 @@
+- name: Ensure Nova is enabled
+  lineinfile:
+    path: /opt/devstack/local.conf
+    line: "enable_service n-api,n-cpu,n-cond,n-sch,n-novnc"

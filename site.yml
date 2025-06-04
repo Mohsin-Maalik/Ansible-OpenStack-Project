@@ -1,0 +1,11 @@
+- hosts: localhost
+  become: yes
+  roles:
+    - common
+    - nova
+    - swift
+    - trove
+    - networking
+    - security
+    - monitoring
+    - validation

@@ -1,0 +1,4 @@
+- name: Enable Trove
+  lineinfile:
+    path: /opt/devstack/local.conf
+    line: "enable_service trove,tr-api,tr-tmgr,tr-cond"

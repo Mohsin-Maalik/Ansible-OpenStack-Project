@@ -1,0 +1,9 @@
+- name: Enable Ceilometer
+  lineinfile:
+    path: /opt/devstack/local.conf
+    line: "enable_service ceilometer-acentral,ceilometer-collector,ceilometer-api"
+
+- name: Centralize Logs
+  shell: |
+    mkdir -p /var/log/openstack
+    ln -s /opt/stack/logs/* /var/log/openstack/

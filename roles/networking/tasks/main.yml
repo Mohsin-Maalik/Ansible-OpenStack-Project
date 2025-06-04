@@ -1,0 +1,12 @@
+- name: Enable Neutron
+  lineinfile:
+    path: /opt/devstack/local.conf
+    line: "enable_service q-svc,q-agt,q-dhcp,q-l3,q-meta"
+
+- name: Configure public/private networks
+  shell: |
+    source /opt/devstack/openrc admin admin
+    openstack network create private
+    openstack subnet create --network private --subnet-range 10.0.0.0/24 private-subnet
+    openstack network create public --external --provider-network-type flat --provider-physical-network public
+    openstack subnet create --network public --subnet-range 192.168.0.0/24 --no-dhcp public-subnet

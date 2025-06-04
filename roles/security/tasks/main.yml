@@ -1,0 +1,13 @@
+- name: Create key pair
+  shell: |
+    source /opt/devstack/openrc admin admin
+    openstack keypair create mykey > ~/mykey.pem
+    chmod 600 ~/mykey.pem
+
+- name: Create RBAC Role
+  shell: |
+    source /opt/devstack/openrc admin admin
+    openstack role create project_admin
+
+- name: Encrypt Swift storage (simulated)
+  shell: echo "Swift encryption simulated"

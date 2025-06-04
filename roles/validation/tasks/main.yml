@@ -1,0 +1,8 @@
+- name: Validate Nova
+  shell: source /opt/devstack/openrc admin admin && openstack compute service list
+
+- name: Validate Swift
+  shell: source /opt/devstack/openrc admin admin && openstack container create test-container
+
+- name: Validate Trove
+  shell: source /opt/devstack/openrc admin admin && openstack database instance list

@@ -1,0 +1,4 @@
+- name: Enable Swift
+  lineinfile:
+    path: /opt/devstack/local.conf
+    line: "enable_service s-proxy,s-object,s-container,s-account"

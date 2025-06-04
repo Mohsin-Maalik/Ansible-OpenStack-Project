@@ -1,0 +1,48 @@
+- name: DevStack Installation with Rollback
+  block:
+    - name: Install required packages
+      apt:
+        name: ['git', 'python3-pip', 'curl']
+        update_cache: yes
+
+    - name: Clone DevStack
+      git:
+        repo: https://opendev.org/openstack/devstack.git
+        dest: /opt/devstack
+        force: yes
+
+    - name: Copy DevStack config
+      copy:
+        src: local.conf
+        dest: /opt/devstack/local.conf
+
+    - name: Run DevStack installation
+      shell: ./stack.sh
+      args:
+        chdir: /opt/devstack
+      register: result
+      failed_when: result.rc != 0
+
+  rescue:
+    - name: Rollback - Unstack DevStack
+      shell: ./unstack.sh || true
+      args:
+        chdir: /opt/devstack
+
+    - name: Rollback - Clean DevStack
+      shell: ./clean.sh || true
+      args:
+        chdir: /opt/devstack
+
+    - name: Rollback - Remove DevStack directory
+      file:
+        path: /opt/devstack
+        state: absent
+
+    - name: Fail explicitly after rollback
+      fail:
+        msg: "DevStack installation failed and rollback was executed."
+
+  always:
+    - name: Print DevStack log if available
+      shell: cat /opt/stack/logs/stack.sh.log || true
